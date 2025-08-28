@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="search-box">
+        <div class="input-box">
+            <input type="search" placeholder="Search by city name" class="search-input"></input>
+            <div class="search-suggestion ">
+                <ul class="search-suggestion-list">
+                </ul>
+            </div>
+        </div>
+        <button class="search-btn">Search</button>
+        <button class="search-btn my-location-btn">My Location</button>
+    </div>
+    <div class="status"></div>
+    <div class="loader loader-hidden"></div>
+    <div class="weather-container">
+        <div class="city-info-header">
+            <div class="city">
+                <div class="city-details">
+                    <span class="city-name">New-York</span><span class="time">08:51AM</span>
+                    <p class="updated-details">updated few minutes ago</p>
+                </div>
+
+            </div>
+
+            <div class="temp-toggle-unit">
+                <button class="temp-unit-btn faharenheit-btn" id="faharenheit">°F</button>
+                <button class="temp-unit-btn celcius-btn active" id="celcius">°C</button>
+            </div>
+            <!-- <div class="temp">
+                <div>26</div>
+                <div class="temp-temp-unit">°C</div>
+            </div>
+         -->
+        </div>
+
+        <div class="weather-details">
+            <div class="weather-icon">
+                <img src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=72&h=72&c=6&o=6&cb=thwsc4&dpr=1.5&pid=Weather"
+                    alt="weather-icon" id="weather-icon">
+            </div>
+            <div class="temperature">
+                <div class="temp-value">26</div>
+                <div class="temp-unit">°C</div>
+            </div>
+            <div class="weather-info">
+                <p class="weather-feature">Mostly Cloudy</p>
+                <div class="weather-feature-gray max-temp">
+                    <div>H</div>
+                    <div class="temp">
+                        <div class="temp-value" id="max-temp-value">26</div>
+                        <div class="temp-temp-unit">°C</div>
+                    </div>
+                </div>
+                <div class="weather-feature-gray min-temp">
+                    <div>L</div>
+                    <div class="temp">
+                        <div class="temp-value" id="min-temp-value">26</div>
+                        <div class="temp-temp-unit">°C</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="forecast-container">
+            <div class="day-item" aria-hidden="true" role="presentation">
+                <div class="day-title">Today</div>
+                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
+                        title="Mostly cloudy"
+                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
+                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        loading="lazy" data-bm="29"></div>
+                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
+            </div>
+
+            <div class="day-item" aria-hidden="true" role="presentation">
+                <div class="day-title">Today</div>
+                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
+                        title="Mostly cloudy"
+                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
+                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        loading="lazy" data-bm="29"></div>
+                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
+            </div>
+            <div class="day-item" aria-hidden="true" role="presentation">
+                <div class="day-title">Today</div>
+                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
+                        title="Mostly cloudy"
+                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
+                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        loading="lazy" data-bm="29"></div>
+                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
+            </div>
+            <div class="day-item" aria-hidden="true" role="presentation">
+                <div class="day-title">Today</div>
+                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
+                        title="Mostly cloudy"
+                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
+                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        loading="lazy" data-bm="29"></div>
+                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
+            </div>
+            <div class="day-item" aria-hidden="true" role="presentation">
+                <div class="day-title">Today</div>
+                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
+                        title="Mostly cloudy"
+                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
+                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        loading="lazy" data-bm="29"></div>
+                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
+            </div>
+            <div class="day-item" aria-hidden="true" role="presentation">
+                <div class="day-title">Today</div>
+                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
+                        title="Mostly cloudy"
+                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
+                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
+                        loading="lazy" data-bm="29"></div>
+                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<script src="script.js" type="module"></script>
+
+</html>
