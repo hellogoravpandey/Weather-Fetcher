@@ -1,7 +1,7 @@
-// module import
+// searh indexing module
 import Fuse from "https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.esm.min.js";
 
-// hml element selection
+// html element selection
 const searchInput = document.querySelector(".search-input");
 const searchSuggestionList = document.querySelector(".search-suggestion-list");
 const searchBtn = document.querySelector(".search-btn");
@@ -16,17 +16,34 @@ const minTemperature = document.getElementById("min-temp-value");
 const maxTemperature = document.getElementById("max-temp-value");
 const feelsDisplay = document.querySelector(".feels");
 const windDisplay = document.querySelector(".wind");
-const humidityDisplay = document.querySelector(".humidity");
 const visibilityDisplay = document.querySelector(".visibility");
 const loader = document.querySelector(".loader");
+const forecastContainer = document.querySelector(".forecast-container");
+
+//forecast hemtl element selection
+const feelsLike = document.querySelector(".feels-like-data");
+const humidity = document.querySelector(".humidity-data");
+const pressure = document.querySelector(".pressure-data");
+const seaLevel = document.querySelector(".sea-level-data");
+const visibility = document.querySelector(".visibility-data");
+
 // api key
 const apiKey = "31f4703ff72c9c542c374f19a042ab1c"; //  put in .env
+
+//global variable
 let lat;
 let lon;
-let currentData;
 let currentForecastData;
 let currentUnit = "c";
 let currentResponse;
+let currentForecastResponse;
+let cityList = null;
+let fuse;
+const options = {
+  keys: ["name"],
+  threshold: 0.3, // fuzziness 1.  very fuzzy 0 = exact
+};
+
 let defaultResponse = {
   coord: {
     lon: 72.8479,
@@ -72,44 +89,32 @@ let defaultResponse = {
   cod: 200,
 };
 
-let cityList = null;
-let fuse;
-console.log("cityList = ", cityList);
-const options = {
-  keys: ["name"],
-  threshold: 0.3, // fuzziness 1.  very fuzzy 0 = exact
-};
-fetchCityList()
-  .then((response) => {
-    fuse = new Fuse(cityList, options);
-    console.log("fuse" + fuse);
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+function init() {
+  // default weather details
+  weatherForCurrentLocation();
 
-// issue ??
+  // refresh the time
+  setInterval(() => {
+    timeDisplay.textContent = `${getTimeWithOffset(
+      currentResponse ? currentResponse.timezone : null
+    )}`;
+  }, 1000);
 
-// function fetchCityList() {
-//     console.log("inside fetchCityList")
-//     const url ="cleaned.city.list.json";
-//     fetch(url)
-//         .then((response) => response.json())
-//         .then((data) => {
-//             console.log("reached inside " );
-//             cityList=data;
-//         })
-//         .catch((error)=>{
-//             console.error("Error loading JSON", error);
-//         })
-// }
+  //  update cityList
+  fetchCityList()
+    .then((response) => {
+      fuse = new Fuse(cityList, options);
+      console.log("fuse" + fuse);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 async function fetchCityList() {
   try {
-    console.log("inside fetchCityList");
     const response = await fetch("cleaned.city.list.json");
     const data = await response.json();
-    console.log("reached inside");
     cityList = data;
   } catch (error) {
     console.error("Error loading JSON", error);
@@ -120,11 +125,13 @@ async function fetchCityList() {
 function updateStatus(textContent) {
   document.querySelector(".status").textContent = textContent;
 }
+
 // toggle weathercontainer
 function toggleWeatherContainer(state) {
   if (state) weatherContainer.classList.add("weather-container-hidden");
   else weatherContainer.classList.remove("weather-container-hidden");
 }
+
 // default city =mumbai
 function displaydefaultWeather() {
   display(defaultResponse);
@@ -140,6 +147,7 @@ function toCelcius(value) {
 
 // get date
 function getTimeWithOffset(offsetSeconds, utcSeconds = Date.now() / 1000) {
+  if (!offsetSeconds) return;
   // Step 1: Add offset to the UTC timestamp
   const date = new Date((utcSeconds + offsetSeconds) * 1000);
 
@@ -154,14 +162,16 @@ function getTimeWithOffset(offsetSeconds, utcSeconds = Date.now() / 1000) {
 
 // display weather details
 function display(data) {
-  currentData = data;
   currentResponse = data;
+  console.log(data);
+  // no response
   if (data.cod != 200) {
     console.error(`HTTP Error! Status: ${data.message}`);
     updateStatus(data.message);
     return;
   }
 
+  // city found
   cityDisplay.textContent = `${data.name}`;
   timeDisplay.textContent = `${getTimeWithOffset(data.timezone)}`;
   tempDisplay.textContent =
@@ -186,50 +196,45 @@ function display(data) {
   maxTemperature.nextElementSibling.textContent =
     currentUnit === "c" ? "°C" : "°F";
 
-  // feelsDisplay.textContent = `${Math.round(data.main.feels_like-273.15)}°C`;
-  // windDisplay.textContent = `${Math.round(data.wind.speed)} m/s`;
-  // humidityDisplay.textContent = data.weather[0].main;
-  // visibilityDisplay.textContent = `${Math.round(data.visibility / 1000)} km`;
+  // other weather details
+  feelsLike.textContent =
+    currentUnit === "c"
+      ? `${toCelcius(data.main.feels_like)}`
+      : `${toFaharenheit(data.main.feels_like)}`;
+  feelsLike.nextElementSibling.textContent = currentUnit === "c" ? "°C" : "°F";
+
+  humidity.textContent = `${data.main.humidity}`;
+  visibility.textContent = `${data.visibility / 1000}`;
+  seaLevel.textContent = `${data.main.sea_level}`;
+  pressure.textContent = `${data.main.pressure}`;
 }
 
-function displayForecast(data) {
-  currentForecastData = data;
-  currentResponse = data;
-  if (data.cod != 200) {
-    console.error(`HTTP Error! Status: ${data.message}`);
-    updateStatus(data.message);
-    return;
-  }
+function displayForecast(response) {
+  console.log("inside the displayforecast");
+  console.log(response);
+  currentForecastData = response;
 
-  cityDisplay.textContent = `${data.name}`;
-  timeDisplay.textContent = `${getTimeWithOffset(data.timezone)}`;
-  tempDisplay.textContent =
-    currentUnit === "c"
-      ? `${toCelcius(data.main.temp)}`
-      : `${toFaharenheit(data.main.temp)}`;
-  tempDisplay.nextElementSibling.textContent =
-    currentUnit === "c" ? "°C" : "°F";
-  weatherDetail.textContent = `${data.weather[0].description}`;
-  weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
-  console.log(data.weather[0].icon);
-  minTemperature.textContent =
-    currentUnit === "c"
-      ? `${toCelcius(data.main.temp_min)}`
-      : `${toFaharenheit(data.main.temp_min)}`;
-  minTemperature.nextElementSibling.textContent =
-    currentUnit === "c" ? "°C" : "°F";
-  maxTemperature.textContent =
-    currentUnit === "c"
-      ? `${toCelcius(data.main.temp_max)}`
-      : `${toFaharenheit(data.main.temp_max)}`;
-  maxTemperature.nextElementSibling.textContent =
-    currentUnit === "c" ? "°C" : "°F";
+  // if no city found
+  // if (response.cod!==200) {
+  //     console.error(`HTTP Error! Status: ${response.message}`);
+  //     updateStatus(response.message);
+  //     return;
+  // }
 
-  // feelsDisplay.textContent = `${Math.round(data.main.feels_like-273.15)}°C`;
-  // windDisplay.textContent = `${Math.round(data.wind.speed)} m/s`;
-  // humidityDisplay.textContent = data.weather[0].main;
-  // visibilityDisplay.textContent = `${Math.round(data.visibility / 1000)} km`;
+  // city found
+  // cityDisplay.textContent = `${data.name}`;
+  // timeDisplay.textContent = `${getTimeWithOffset(data.timezone)}`;
+  // tempDisplay.textContent = currentUnit === "c" ? `${toCelcius(data.main.temp)}` : `${toFaharenheit(data.main.temp)}`;
+  // tempDisplay.nextElementSibling.textContent = currentUnit === "c" ? "°C" : "°F";
+  // weatherDetail.textContent = `${data.weather[0].description}`;
+  // weatherIcon.src = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
+  // console.log(data.weather[0].icon);
+  // minTemperature.textContent = currentUnit === "c" ? `${toCelcius(data.main.temp_min)}` : `${toFaharenheit(data.main.temp_min)}`;
+  // minTemperature.nextElementSibling.textContent = currentUnit === "c" ? "°C" : "°F";
+  // maxTemperature.textContent = currentUnit === "c" ? `${toCelcius(data.main.temp_max)}` : `${toFaharenheit(data.main.temp_max)}`;
+  // maxTemperature.nextElementSibling.textContent = currentUnit === "c" ? "°C" : "°F";
 }
+
 function toggleLoader(flag) {
   if (flag) loader.classList.remove("loader-hidden");
   else loader.classList.add("loader-hidden");
@@ -255,11 +260,9 @@ function fetchByCityName(cityName) {
   toggleLoader(true);
   toggleWeatherContainer(true);
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`;
-  const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast/daily?q=${cityName}&cnt=${10}&appid=${apiKey}`;
   fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      console.log("inside then ");
       display(data);
       toggleLoader(false);
       toggleWeatherContainer(false);
@@ -269,26 +272,38 @@ function fetchByCityName(cityName) {
     });
 }
 
-function displayWeatherForecast(cityName) {}
-
-function fetchByCoordinates(coordinates) {
+function fetchForecast(cityName) {
+  const apiKey2 = "2fdf771693b3472699060834252808";
   toggleLoader(true);
   toggleWeatherContainer(true);
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.latitude}&lon=${coordinates.longitude}&appid=${apiKey}`;
-  const fetchPromise = fetch(url);
-  fetchPromise
+  const url = `http://api.weatherapi.com/v1/forecast.json?q=${cityName}&key=${apiKey2}&days=8`;
+  fetch(url)
     .then((response) => response.json())
     .then((data) => {
-      display(data);
+      console.log("inside forecast then");
+      displayForecast(data);
       toggleLoader(false);
       toggleWeatherContainer(false);
     })
     .catch((error) => {
-      console.error(error);
-      updateStatus(error);
-      toggleLoader(false);
-      toggleWeatherContainer(false);
+      console.log("error is :::" + error);
     });
+}
+
+async function fetchByCoordinates(coordinates) {
+  toggleLoader(true);
+  toggleWeatherContainer(true);
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${coordinates.latitude}&lon=${coordinates.longitude}&appid=${apiKey}`;
+
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    display(data);
+    toggleLoader(false);
+    toggleWeatherContainer(false);
+  } catch {
+    console.log("error");
+  }
 }
 
 // weather for current location
@@ -300,7 +315,9 @@ function weatherForCurrentLocation(e) {
 }
 
 function showPosition(position) {
-  fetchByCoordinates(position.coords);
+  fetchByCoordinates(position.coords).then(() => {
+    fetchForecast(currentResponse.name);
+  });
 }
 
 // error handling
@@ -328,6 +345,7 @@ function search() {
   if (!input) return;
   input = input[0].toUpperCase() + input.slice(1);
   fetchByCityName(input);
+  fetchForecast(input);
 }
 
 // change temp unit
@@ -347,7 +365,6 @@ function loadSearchList(e) {
   searchSuggestionList.innerHTML = "";
   if (!e.target.value) return;
   const input = e.target.value.toLowerCase();
-  console.log(input);
   const result = fuse.search(input);
   // no city found
   if (result.length == 0) {
@@ -356,11 +373,10 @@ function loadSearchList(e) {
     list.textContent = "No city found";
     searchSuggestionList.appendChild(list);
   }
+
   for (let i = 0; i < 10; i++) {
-    if (cityList.includes(result[i])) continue;
-    console.log("result element " + JSON.stringify(result[i]));
+    if (cityList.includes(result[i])) continue; // still same name will appear, due to different coordinates
     const list = document.createElement("list");
-    console.log(list);
     list.classList.add("suggestion-list");
     list.textContent = result[i].item.name;
     searchSuggestionList.appendChild(list);
@@ -370,13 +386,18 @@ function loadSearchList(e) {
     .addEventListener("click", (e) => {
       if (e.target === searchSuggestionList) return;
       let input = e.target.textContent.trim();
+      searchSuggestionList.innerHTML = "";
       console.log("target hitted", e.target);
       input = input.toLowerCase();
       fetchByCityName(input);
+      fetchForecast(input);
     });
 }
 
-//event
+//initial event
+document.addEventListener("DOMContentLoaded", init);
+
+//other events
 searchBtn.addEventListener("click", search);
 myLocationBtn.addEventListener("click", weatherForCurrentLocation);
 document.querySelectorAll(".temp-unit-btn").forEach((btn) => {
@@ -389,11 +410,3 @@ searchInput.addEventListener("keydown", (e) => {
 
 // input event
 searchInput.addEventListener("input", loadSearchList);
-
-// default weather details
-weatherForCurrentLocation();
-
-// refresh the time
-setInterval(() => {
-  timeDisplay.textContent = `${getTimeWithOffset(currentData.timezone)}`;
-}, 1000);
