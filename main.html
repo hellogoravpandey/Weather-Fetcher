@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
-    <link rel="stylesheet" href="style.css">
+     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -69,10 +69,54 @@
                         <div class="temp-temp-unit">°C</div>
                     </div>
                 </div>
-
             </div>
+
         </div>
 
+        <div class="weather-other-details">
+            <div class="feels-like">
+                <div class="feels-like-title">Feels-like</div>
+                <div class="temp">
+                    <div class="feels-like-data field-data"></div>
+                    <div class="temp-temp-unit field-data">°C</div>
+                </div>
+            </div>
+
+            <div class="humidity">
+                <div class="humidity-title">Humidity</div>
+                <div class="temp">
+                    <div class="humidity-data field-data"></div>
+                    <div class="temp-temp-unit humidity-data-unit field-data">%</div>
+                </div>
+            </div>
+
+            <div class="pressure">
+                <div class="pressure-title">Pressure</div>
+                <div class="temp">
+                    <div class="pressure-data field-data"></div>
+                    <div class="temp-temp-unit presssure-data-unit field-data">hPa</div>
+                </div>
+            </div>
+
+            <div class="sea-level">
+                <div class="sea-level-title">Sea Level</div>
+                <div class="temp">
+                    <div class="sea-level-data field-data"></div>
+                    <div class="temp-temp-unit sea-level-data-unit field-data">hPa</div>
+                </div>
+
+            </div>
+
+            <div class="visibility">
+                <div class="visibility-title">visibility</div>
+                <div class="temp">
+                    <div class="visibility-data field-data"></div>
+                    <div class="temp-temp-unit visibility-data-unit field-data">km</div>
+                </div>
+
+            </div>
+
+            <!-- 
         <div class="forecast-container">
             <div class="day-item" aria-hidden="true" role="presentation">
                 <div class="day-title">Today</div>
@@ -84,61 +128,8 @@
                         loading="lazy" data-bm="29"></div>
                 <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
             </div>
-
-            <div class="day-item" aria-hidden="true" role="presentation">
-                <div class="day-title">Today</div>
-                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
-                        title="Mostly cloudy"
-                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
-                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        loading="lazy" data-bm="29"></div>
-                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
-            </div>
-            <div class="day-item" aria-hidden="true" role="presentation">
-                <div class="day-title">Today</div>
-                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
-                        title="Mostly cloudy"
-                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
-                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        loading="lazy" data-bm="29"></div>
-                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
-            </div>
-            <div class="day-item" aria-hidden="true" role="presentation">
-                <div class="day-title">Today</div>
-                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
-                        title="Mostly cloudy"
-                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
-                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        loading="lazy" data-bm="29"></div>
-                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
-            </div>
-            <div class="day-item" aria-hidden="true" role="presentation">
-                <div class="day-title">Today</div>
-                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
-                        title="Mostly cloudy"
-                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
-                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        loading="lazy" data-bm="29"></div>
-                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
-            </div>
-            <div class="day-item" aria-hidden="true" role="presentation">
-                <div class="day-title">Today</div>
-                <div class="cico day-img" style="width:32px;height:32px;"><img height="32" width="32"
-                        title="Mostly cloudy"
-                        data-src-hq="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        alt="Mostly cloudy" data-priority="2" id="emb10B23FDC0" class="rms_img"
-                        src="https://th.bing.com/th/id/OBWA.v6-106-png-d300?w=32&amp;h=32&amp;c=6&amp;o=6&amp;cb=thwsc4&amp;dpr=1.2&amp;pid=Weather"
-                        loading="lazy" data-bm="29"></div>
-                <div class="day-temp"><span class="day-temp-h">90°</span><span class="day-temp-l">80°</span></div>
-            </div>
+        </div> -->
         </div>
-
-    </div>
 </body>
-<script src="script.js" type="module"></script>
-
+<script type="module" src="script.js"></script>
 </html>
