@@ -261,6 +261,21 @@ body {
   background-color: rgb(223, 222, 243);
 }
 
+.weather-other-details {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.weather-other-details div {
+  text-align: center;
+}
+
+.field-data {
+  font-weight: 450;
+  opacity: 0.5;
+}
+
 /* Animation  */
 @keyframes spin {
   0% {
