@@ -22,7 +22,8 @@ Designed for clarity, interactivity, and learning. ✨
 
 ## 📸 Preview
 *(Add a screenshot here)*
-<img width="1072" height="698" alt="image" src="https://github.com/user-attachments/assets/12724ada-a58e-4d41-8f7f-1e403a9fecbd" />
+<img width="1135" height="700" alt="image" src="https://github.com/user-attachments/assets/8305a0d3-9849-43c5-a645-b7dcb6f5a9d4" />
+<img width="978" height="451" alt="image" src="https://github.com/user-attachments/assets/23a430ad-5327-4e9a-ac6f-0688b82e3cb2" />
 
 
 ---
