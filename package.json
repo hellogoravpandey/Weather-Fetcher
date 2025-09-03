@@ -1,0 +1,28 @@
+{
+  "name": "weather-fetcher",
+  "version": "1.0.0",
+  "description": "A modern and responsive **Weather Application** built with **HTML, CSS, and JavaScript**.  \r This app fetches live weather data from the **OpenWeather API**, supports both city-based search and geolocation,  \r and allows users to switch between Celsius and Fahrenheit.",
+  "main": "script.js",
+  "scripts": {
+    "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hellogoravpandey/weather-fetcher.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hellogoravpandey/weather-fetcher/issues"
+  },
+  "homepage": "https://github.com/hellogoravpandey/weather-fetcher#readme",
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "fuse.js": "^7.1.0"
+  },
+  "devDependencies": {
+    "vite": "^7.1.4"
+  }
+}

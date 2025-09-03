@@ -1,6 +1,5 @@
-// searh indexing module
-import Fuse from "https://cdn.jsdelivr.net/npm/fuse.js@6.6.2/dist/fuse.esm.min.js";
 
+import Fuse from "fuse.js";
 // html element selection
 const searchInput = document.querySelector(".search-input");
 const searchSuggestionList = document.querySelector(".search-suggestion-list");
@@ -28,7 +27,7 @@ const seaLevel = document.querySelector(".sea-level-data");
 const visibility = document.querySelector(".visibility-data");
 
 // api key
-const apiKey = "31f4703ff72c9c542c374f19a042ab1c"; //  put in .env
+const apiKey = import.meta.env.VITE_API_KEY; //  put in .env
 
 //global variable
 let lat;
@@ -87,7 +86,7 @@ let defaultResponse = {
   id: 1275339,
   name: "Mumbai",
   cod: 200,
-};
+};  
 
 function init() {
   // default weather details
